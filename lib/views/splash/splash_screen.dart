@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_codes_app/views/home/home_screen.dart';
+import 'package:guitar_codes_app/views/login_or_register/login_or_register.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,16 +12,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _navigateToLogin();
   }
 
-  _navigateToHome() async {
+  _navigateToLogin() async {
     await Future.delayed(const Duration(seconds: 3), () {});
     if (mounted) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const LoginOrRegister(),
         ),
       );
     }
@@ -30,7 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.deepPurple,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: 20),
             Text(
-              'Guitar Codes',
+              'Chord Ceylon',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
