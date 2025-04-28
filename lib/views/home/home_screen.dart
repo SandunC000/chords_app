@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,6 +10,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isGridView = true;
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Theme.of(context).colorScheme.inverseSurface,
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Center(
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
@@ -70,7 +73,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: _isGridView ? _buildGridView() : _buildListView(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Search',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: _isGridView ? _buildGridView() : _buildListView(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -85,18 +111,28 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       itemCount: 9, // Example 9 singers
       itemBuilder: (context, index) {
-        return Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                radius: 30,
-                backgroundImage: AssetImage(
-                    'assets/singer_placeholder.png'), // Add sample image
+        return GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ArtistDetailsScreen(
+                singerName: 'Singer ${index + 1}',
               ),
-              const SizedBox(height: 8),
-              Text('Singer ${index + 1}'),
-            ],
+            ),
+          ),
+          child: Card(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage(
+                      'assets/singer_placeholder.png'), // Add sample image
+                ),
+                const SizedBox(height: 8),
+                Text('Singer ${index + 1}'),
+              ],
+            ),
           ),
         );
       },
