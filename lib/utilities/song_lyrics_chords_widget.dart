@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 class SongLyricsChordsWidget extends StatelessWidget {
   final String lyrics;
   final String chords;
+  final double fontSize;
 
-  const SongLyricsChordsWidget(
-      {super.key, required this.lyrics, required this.chords});
+  const SongLyricsChordsWidget({
+    super.key,
+    required this.lyrics,
+    required this.chords,
+    required this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,7 @@ class SongLyricsChordsWidget extends StatelessWidget {
               paddedChordsLines[index ~/ 2],
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: fontSize,
                 color: Theme.of(context).colorScheme.inverseSurface,
               ),
               textAlign: TextAlign.center,
@@ -38,6 +44,7 @@ class SongLyricsChordsWidget extends StatelessWidget {
               lyricsLines[index ~/ 2],
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontSize: fontSize,
                 color: Theme.of(context).colorScheme.inverseSurface,
               ),
             );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/services/favorites_service.dart';
+import 'package:guitar_codes_app/services/settings_service.dart';
 import 'package:guitar_codes_app/views/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FavoritesService()),
+        ChangeNotifierProvider(create: (_) => SettingsService()),
       ],
       child: const MyApp(),
     ),
@@ -19,12 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsService = Provider.of<SettingsService>(context);
+
     return MaterialApp(
       title: 'Guitar Codes',
       debugShowCheckedModeBanner: false,
       theme: lightThemeData(),
       darkTheme: darkThemeData(),
-      themeMode: ThemeMode.system,
+      themeMode:
+          settingsService.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
       home: const SplashScreen(),
     );
   }
@@ -60,7 +65,7 @@ class MyApp extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: Color(0xFFFBF5F3)), // text becomes light
+        bodyLarge: TextStyle(color: Color(0xFFFBF5F3)),
         bodyMedium: TextStyle(color: Color(0xFFCCCCCC)),
       ),
       useMaterial3: true,

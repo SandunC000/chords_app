@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/favorite.dart';
 import 'package:guitar_codes_app/models/song.dart';
 import 'package:guitar_codes_app/services/favorites_service.dart';
+import 'package:guitar_codes_app/services/settings_service.dart';
 import 'package:guitar_codes_app/utilities/functions.dart';
 import 'package:guitar_codes_app/utilities/song_lyrics_chords_widget.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +41,7 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsService = Provider.of<SettingsService>(context);
     final transposedChords =
         transposeChords(widget.song.chords, _transposeValue);
 
@@ -75,20 +77,46 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_downward),
-                    onPressed: () => _transpose(_transposeValue - 1),
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_downward),
+                        onPressed: () => _transpose(_transposeValue - 1),
+                      ),
+                      Text('Transpose: $_transposeValue'),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_upward),
+                        onPressed: () => _transpose(_transposeValue + 1),
+                      ),
+                    ],
                   ),
-                  Text('Transpose: $_transposeValue'),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_upward),
-                    onPressed: () => _transpose(_transposeValue + 1),
+                  Column(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.text_decrease),
+                        onPressed: () {
+                          settingsService
+                              .setFontSize(settingsService.fontSize - 2);
+                        },
+                      ),
+                      Text('Font Size: ${settingsService.fontSize}'),
+                      IconButton(
+                        icon: const Icon(Icons.text_increase),
+                        onPressed: () {
+                          settingsService
+                              .setFontSize(settingsService.fontSize + 2);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               SongLyricsChordsWidget(
-                  lyrics: widget.song.lyrics, chords: transposedChords),
+                lyrics: widget.song.lyrics,
+                chords: transposedChords,
+                fontSize: settingsService.fontSize,
+              ),
             ],
           ),
         ),

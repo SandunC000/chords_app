@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/artist.dart';
 import 'package:guitar_codes_app/models/song.dart';
 import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
-import 'package:guitar_codes_app/views/favorites_view/favorites_screen.dart';
+import 'package:guitar_codes_app/views/drawer_pages/contact_us_screen.dart';
+import 'package:guitar_codes_app/views/drawer_pages/favorites_screen.dart';
+import 'package:guitar_codes_app/views/drawer_pages/my_profile_screen.dart';
+import 'package:guitar_codes_app/views/drawer_pages/rate_us_screen.dart';
+import 'package:guitar_codes_app/views/drawer_pages/settings_screen.dart';
 import 'package:guitar_codes_app/views/song_view/song_detail_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -146,7 +150,13 @@ D A Bm G''',
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text('My Profile'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MyProfileScreen()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.favorite),
@@ -162,17 +172,34 @@ D A Bm G''',
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.star),
               title: const Text('Rate Us'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RateUsScreen()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.contact_mail),
               title: const Text('Contact Us'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ContactUsScreen()),
+                );
+              },
             ),
           ],
         ),
