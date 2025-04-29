@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/artist.dart';
 import 'package:guitar_codes_app/models/song.dart';
+import 'package:guitar_codes_app/services/auth_service.dart';
 import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/contact_us_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/favorites_screen.dart';
@@ -8,6 +9,7 @@ import 'package:guitar_codes_app/views/drawer_pages/my_profile_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/rate_us_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/settings_screen.dart';
 import 'package:guitar_codes_app/views/song_view/song_detail_view.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -127,6 +129,8 @@ D A Bm G''',
   }
 
   Widget _buildDrawer() {
+    final authService = Provider.of<AuthService>(context);
+
     return SafeArea(
       top: true,
       bottom: true,
@@ -158,17 +162,18 @@ D A Bm G''',
                 );
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.favorite),
-              title: const Text('Favorites'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const FavoritesScreen()),
-                );
-              },
-            ),
+            if (!authService.isGuest)
+              ListTile(
+                leading: const Icon(Icons.favorite),
+                title: const Text('Favorites'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FavoritesScreen()),
+                  );
+                },
+              ),
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guitar_codes_app/services/auth_service.dart';
 import 'package:guitar_codes_app/services/favorites_service.dart';
 import 'package:guitar_codes_app/services/settings_service.dart';
 import 'package:guitar_codes_app/views/splash/splash_screen.dart';
@@ -8,8 +9,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => FavoritesService()),
+        ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => SettingsService()),
+        ChangeNotifierProvider(create: (_) => FavoritesService()),
       ],
       child: const MyApp(),
     ),
