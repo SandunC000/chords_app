@@ -25,10 +25,21 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.music_note,
-                size: 100,
-                color: Theme.of(context).colorScheme.inverseSurface,
+              Container(
+                decoration: ShapeDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.inverseSurface
+                      : null,
+                  shape: const CircleBorder(),
+                ),
+                padding: EdgeInsets.zero,
+                child: const Center(
+                  child: Image(
+                    image: AssetImage('lib/assets/global/app_logo.png'),
+                    width: 250,
+                    height: 250,
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25),

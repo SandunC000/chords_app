@@ -29,21 +29,23 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.music_note,
-                size: 100,
-                color: Theme.of(context).colorScheme.inverseSurface,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25),
-                child: Text(
-                  "Chord Ceylon",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.inverseSurface,
+              Container(
+                decoration: ShapeDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.inverseSurface
+                      : null,
+                  shape: const CircleBorder(),
+                ),
+                padding: EdgeInsets.zero,
+                child: const Center(
+                  child: Image(
+                    image: AssetImage('lib/assets/global/app_logo.png'),
+                    width: 250,
+                    height: 250,
                   ),
                 ),
               ),
+              const SizedBox(height: 35),
               PrimaryTextField(
                 controller: emailController,
                 labelText: "Email",
