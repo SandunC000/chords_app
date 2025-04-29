@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/artist.dart';
+import 'package:guitar_codes_app/models/song.dart';
 import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
 import 'package:guitar_codes_app/views/favorites_view/favorites_screen.dart';
 import 'package:guitar_codes_app/views/song_view/song_detail_view.dart';
@@ -17,19 +18,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Artist> sampleArtists = [
     Artist(
-      name: 'Artist 1',
+      name: 'Saman de Silva',
       imageUrl: 'assets/singer_placeholder.png',
       songs: [
-        Song(title: 'Song 1', chords: 'C G Am F'),
-        Song(title: 'Song 2', chords: 'D A Bm G'),
+        Song(
+          title: 'Niyare Piya Nagala',
+          lyrics: '''niyare.. piya  nagala
+manike.. oba dura enawa
+dakalaa.. wehesa niwee
+sitha piruna..... ada senehasa danunaa''',
+          chords: '''Em        D        Em
+              D           Em
+          Am             Em
+                         C            D            Em''',
+        ),
+        Song(
+          title: 'Song 2',
+          lyrics: '''This is the first verse
+With some lyrics here
+This is the chorus
+With some more lyrics''',
+          chords: '''C G Am F
+C G Am F
+D A Bm G
+D A Bm G''',
+        ),
       ],
     ),
     Artist(
       name: 'Artist 2',
       imageUrl: 'assets/singer_placeholder.png',
       songs: [
-        Song(title: 'Song 3', chords: 'E B C#m A'),
-        Song(title: 'Song 4', chords: 'F C G Am'),
+        Song(
+          title: 'Song 3',
+          lyrics: '''This is the first verse
+With some lyrics here
+This is the chorus
+With some more lyrics''',
+          chords: '''C G Am F
+C G Am F
+D A Bm G
+D A Bm G''',
+        ),
+        Song(
+          title: 'Song 4',
+          lyrics: '''This is the first verse
+With some lyrics here
+This is the chorus
+With some more lyrics''',
+          chords: '''C G Am F
+C G Am F
+D A Bm G
+D A Bm G''',
+        ),
       ],
     ),
     // Add more artists as needed
@@ -113,7 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const FavoritesScreen()),
                 );
               },
             ),
