@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:guitar_codes_app/models/artist.dart';
 import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
+import 'package:guitar_codes_app/views/favorites_view/favorites_screen.dart';
+import 'package:guitar_codes_app/views/song_view/song_detail_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,11 +15,31 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isGridView = true;
   String _searchQuery = '';
 
+  List<Artist> sampleArtists = [
+    Artist(
+      name: 'Artist 1',
+      imageUrl: 'assets/singer_placeholder.png',
+      songs: [
+        Song(title: 'Song 1', chords: 'C G Am F'),
+        Song(title: 'Song 2', chords: 'D A Bm G'),
+      ],
+    ),
+    Artist(
+      name: 'Artist 2',
+      imageUrl: 'assets/singer_placeholder.png',
+      songs: [
+        Song(title: 'Song 3', chords: 'E B C#m A'),
+        Song(title: 'Song 4', chords: 'F C G Am'),
+      ],
+    ),
+    // Add more artists as needed
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Guitar Codes'),
+        title: Text(_isGridView ? 'Artists' : 'Songs'),
         actions: [
           IconButton(
             icon: Icon(_isGridView ? Icons.list : Icons.grid_view),
@@ -28,19 +51,53 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
+      drawer: _buildDrawer(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: 'Search',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
+            ),
+          ),
+          Expanded(
+            child: _isGridView ? _buildGridView() : _buildListView(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawer() {
+    return SafeArea(
+      top: true,
+      bottom: true,
+      child: Drawer(
         child: ListView(
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inverseSurface,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Theme.of(context).colorScheme.inverseSurface
+                    : Theme.of(context).colorScheme.surface,
               ),
-              child: Center(
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.surface,
-                    fontSize: 24,
+              child: const Center(
+                child: Center(
+                  child: Image(
+                    image: AssetImage('assets/app_logo.png'),
                   ),
                 ),
               ),
@@ -53,7 +110,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.favorite),
               title: const Text('Favorites'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
@@ -73,30 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
-              },
-            ),
-          ),
-          Expanded(
-            child: _isGridView ? _buildGridView() : _buildListView(),
-          ),
-        ],
-      ),
     );
   }
 
@@ -109,14 +147,21 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisSpacing: 8,
         mainAxisSpacing: 8,
       ),
-      itemCount: 9, // Example 9 singers
+      itemCount: sampleArtists.length,
       itemBuilder: (context, index) {
+        final artist = sampleArtists[index];
+
+        if (_searchQuery.isNotEmpty &&
+            !artist.name.toLowerCase().contains(_searchQuery.toLowerCase())) {
+          return const SizedBox.shrink();
+        }
+
         return GestureDetector(
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ArtistDetailsScreen(
-                singerName: 'Singer ${index + 1}',
+                artist: artist,
               ),
             ),
           ),
@@ -124,13 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(
-                      'assets/singer_placeholder.png'), // Add sample image
-                ),
+                // CircleAvatar(
+                //   radius: 30,
+                //   backgroundImage: AssetImage(artist.imageUrl),
+                // ),
                 const SizedBox(height: 8),
-                Text('Singer ${index + 1}'),
+                Text(artist.name),
               ],
             ),
           ),
@@ -142,15 +186,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildListView() {
     return ListView.builder(
       padding: const EdgeInsets.all(8),
-      itemCount: 20, // Example 20 songs
+      itemCount: sampleArtists.expand((artist) => artist.songs).length,
       itemBuilder: (context, index) {
+        final song =
+            sampleArtists.expand((artist) => artist.songs).elementAt(index);
+        final artist =
+            sampleArtists.firstWhere((artist) => artist.songs.contains(song));
+
+        if (_searchQuery.isNotEmpty &&
+            !song.title.toLowerCase().contains(_searchQuery.toLowerCase())) {
+          return const SizedBox.shrink();
+        }
+
         return Card(
           child: ListTile(
             leading: const Icon(Icons.music_note),
-            title: Text('Song Title ${index + 1}'),
-            subtitle: Text('Singer ${index % 9 + 1}'),
+            title: Text(song.title),
+            subtitle: Text(artist.name),
             onTap: () {
-              // Navigate to Song Page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SongDetailsScreen(
+                          song: song,
+                          artistName: artist.name,
+                        )),
+              );
             },
           ),
         );

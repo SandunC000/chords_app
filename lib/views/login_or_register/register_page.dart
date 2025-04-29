@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: EdgeInsets.zero,
                 child: const Center(
                   child: Image(
-                    image: AssetImage('lib/assets/global/app_logo.png'),
+                    image: AssetImage('assets/app_logo.png'),
                     width: 250,
                     height: 250,
                   ),

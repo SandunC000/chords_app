@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:guitar_codes_app/services/favorites_service.dart';
 import 'package:guitar_codes_app/views/splash/splash_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoritesService()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
