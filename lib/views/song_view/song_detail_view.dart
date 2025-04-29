@@ -75,39 +75,55 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_downward),
-                        onPressed: () => _transpose(_transposeValue - 1),
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_downward),
+                            onPressed: () => _transpose(_transposeValue - 1),
+                          ),
+                          const SizedBox(width: 8),
+                          Text('Transpose: $_transposeValue'),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.arrow_upward),
+                            onPressed: () => _transpose(_transposeValue + 1),
+                          ),
+                        ],
                       ),
-                      Text('Transpose: $_transposeValue'),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_upward),
-                        onPressed: () => _transpose(_transposeValue + 1),
-                      ),
-                    ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.text_decrease),
-                        onPressed: () {
-                          settingsService
-                              .setFontSize(settingsService.fontSize - 2);
-                        },
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.text_decrease),
+                            onPressed: () {
+                              settingsService
+                                  .setFontSize(settingsService.fontSize - 2);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          Text('Font Size: ${settingsService.fontSize}'),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.text_increase),
+                            onPressed: () {
+                              settingsService
+                                  .setFontSize(settingsService.fontSize + 2);
+                            },
+                          ),
+                        ],
                       ),
-                      Text('Font Size: ${settingsService.fontSize}'),
-                      IconButton(
-                        icon: const Icon(Icons.text_increase),
-                        onPressed: () {
-                          settingsService
-                              .setFontSize(settingsService.fontSize + 2);
-                        },
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),
