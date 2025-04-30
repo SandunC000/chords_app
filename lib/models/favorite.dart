@@ -4,11 +4,30 @@ class Favorite {
   final String lyrics;
   final String chords;
 
-  Favorite(
-      {required this.songTitle,
-      required this.artistName,
-      required this.chords,
-      required this.lyrics});
+  Favorite({
+    required this.songTitle,
+    required this.artistName,
+    required this.chords,
+    required this.lyrics,
+  });
+
+  factory Favorite.fromJson(Map<String, dynamic> json) {
+    return Favorite(
+      songTitle: json['songTitle'],
+      artistName: json['artistName'],
+      lyrics: json['lyrics'],
+      chords: json['chords'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'songTitle': songTitle,
+      'artistName': artistName,
+      'lyrics': lyrics,
+      'chords': chords,
+    };
+  }
 
   @override
   bool operator ==(Object other) =>

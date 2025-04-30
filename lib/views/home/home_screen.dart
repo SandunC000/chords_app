@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/artist.dart';
 import 'package:guitar_codes_app/models/song.dart';
@@ -7,6 +8,7 @@ import 'package:guitar_codes_app/views/drawer_pages/favorites_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/rate_us_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/settings_screen.dart';
 import 'package:guitar_codes_app/views/song_view/song_detail_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,66 +20,98 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool _isGridView = true;
   String _searchQuery = '';
+  List<Artist> sampleArtists = [];
 
-  List<Artist> sampleArtists = [
-    Artist(
-      name: 'Saman de Silva',
-      imageUrl: 'assets/singer_placeholder.png',
-      songs: [
-        Song(
-          title: 'Niyare Piya Nagala',
-          lyrics: '''niyare.. piya  nagala
+  @override
+  void initState() {
+    super.initState();
+    _loadArtists();
+  }
+
+  Future<void> _loadArtists() async {
+    final prefs = await SharedPreferences.getInstance();
+    final artistsJson = prefs.getString('artists');
+    if (artistsJson != null) {
+      final artistsList = jsonDecode(artistsJson) as List;
+      setState(() {
+        sampleArtists =
+            artistsList.map((json) => Artist.fromJson(json)).toList();
+      });
+    } else {
+      setState(() {
+        sampleArtists = _getDefaultArtists();
+        _saveArtists();
+      });
+    }
+  }
+
+  Future<void> _saveArtists() async {
+    final prefs = await SharedPreferences.getInstance();
+    final artistsJson = jsonEncode(sampleArtists);
+    await prefs.setString('artists', artistsJson);
+  }
+
+  List<Artist> _getDefaultArtists() {
+    return [
+      Artist(
+        name: 'Saman de Silva',
+        imageUrl: 'assets/singer_placeholder.png',
+        songs: [
+          Song(
+            title: 'Niyare Piya Nagala',
+            lyrics: '''niyare.. piya  nagala
 manike.. oba dura enawa
 dakalaa.. wehesa niwee
 sitha piruna..... ada senehasa danunaa''',
-          chords: '''Em        D        Em
-              D           Em
-          Am             Em
-                         C            D            Em''',
-        ),
-        Song(
-          title: 'Song 2',
-          lyrics: '''This is the first verse
+            chords: '''Em        D        Em
+                D           Em
+            Am             Em
+                           C            D            Em''',
+          ),
+          Song(
+            title: 'Song 2',
+            lyrics: '''This is the first verse
 With some lyrics here
 This is the chorus
 With some more lyrics''',
-          chords: '''C G Am F
+            chords: '''C G Am F
 C G Am F
 D A Bm G
 D A Bm G''',
-        ),
-      ],
-    ),
-    Artist(
-      name: 'Artist 2',
-      imageUrl: 'assets/singer_placeholder.png',
-      songs: [
-        Song(
-          title: 'Song 3',
-          lyrics: '''This is the first verse
+          ),
+        ],
+      ),
+      Artist(
+        name: 'Artist 2',
+        imageUrl: 'assets/singer_placeholder.png',
+        songs: [
+          Song(
+            title: 'Song 3',
+            lyrics: '''This is the first verse
 With some lyrics here
 This is the chorus
 With some more lyrics''',
-          chords: '''C G Am F
+            chords: '''C G Am F
 C G Am F
 D A Bm G
 D A Bm G''',
-        ),
-        Song(
-          title: 'Song 4',
-          lyrics: '''This is the first verse
+          ),
+          Song(
+            title: 'Song 4',
+            lyrics: '''This is the first verse
 With some lyrics here
 This is the chorus
 With some more lyrics''',
-          chords: '''C G Am F
+            chords: '''C G Am F
 C G Am F
 D A Bm G
 D A Bm G''',
-        ),
-      ],
-    ),
-    // Add more artists as needed
-  ];
+          ),
+        ],
+      ),
+      // Add more artists as needed
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
