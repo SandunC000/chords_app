@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/favorite.dart';
 import 'package:guitar_codes_app/models/song.dart';
-import 'package:guitar_codes_app/services/auth_service.dart';
 import 'package:guitar_codes_app/services/favorites_service.dart';
 import 'package:guitar_codes_app/services/settings_service.dart';
 import 'package:guitar_codes_app/utilities/functions.dart';
@@ -42,7 +41,6 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
     final settingsService = Provider.of<SettingsService>(context);
     final transposedChords =
         transposeChords(widget.song.chords, _transposeValue);
@@ -51,24 +49,23 @@ class _SongDetailsScreenState extends State<SongDetailsScreen> {
       appBar: AppBar(
         title: Text(widget.song.title),
         actions: [
-          if (!authService.isGuest)
-            Consumer<FavoritesService>(
-                builder: (context, favoritesService, child) {
-              return IconButton(
-                icon: Icon(
-                  favoritesService.isFavorite(_favorite)
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                ),
-                onPressed: () {
-                  if (favoritesService.isFavorite(_favorite)) {
-                    favoritesService.removeFavorite(_favorite);
-                  } else {
-                    favoritesService.addFavorite(_favorite);
-                  }
-                },
-              );
-            }),
+          Consumer<FavoritesService>(
+              builder: (context, favoritesService, child) {
+            return IconButton(
+              icon: Icon(
+                favoritesService.isFavorite(_favorite)
+                    ? Icons.favorite
+                    : Icons.favorite_border,
+              ),
+              onPressed: () {
+                if (favoritesService.isFavorite(_favorite)) {
+                  favoritesService.removeFavorite(_favorite);
+                } else {
+                  favoritesService.addFavorite(_favorite);
+                }
+              },
+            );
+          }),
         ],
       ),
       body: SingleChildScrollView(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_codes_app/views/login_or_register/login_or_register.dart';
+import 'package:guitar_codes_app/views/home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginOrRegister(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
