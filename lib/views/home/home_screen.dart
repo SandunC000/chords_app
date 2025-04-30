@@ -156,9 +156,10 @@ D A Bm G''',
       top: true,
       bottom: true,
       child: Drawer(
+        elevation: 0,
         child: ListView(
           children: [
-            DrawerHeader(
+            Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).brightness == Brightness.dark
                     ? Theme.of(context).colorScheme.inverseSurface
