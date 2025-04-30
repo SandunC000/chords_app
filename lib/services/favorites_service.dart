@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/favorite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +22,12 @@ class FavoritesService with ChangeNotifier {
 
   void removeFavorite(Favorite favorite) {
     _favorites.remove(favorite);
+    _saveFavorites();
+    notifyListeners();
+  }
+
+  void clearFavorites() {
+    _favorites.clear();
     _saveFavorites();
     notifyListeners();
   }
