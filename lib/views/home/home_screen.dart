@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:guitar_codes_app/models/artist.dart';
 import 'package:guitar_codes_app/models/song.dart';
+import 'package:guitar_codes_app/utilities/primary_search_bar.dart';
 import 'package:guitar_codes_app/views/artist_view/artist_details_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/contact_us_screen.dart';
 import 'package:guitar_codes_app/views/drawer_pages/favorites_screen.dart';
@@ -134,21 +135,12 @@ D A Bm G''',
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
+            child: PrimarySearchBar(
               onChanged: (value) {
                 setState(() {
                   _searchQuery = value;
                 });
               },
-              onTapOutside: (event) =>
-                  FocusManager.instance.primaryFocus?.unfocus(),
             ),
           ),
           Expanded(
