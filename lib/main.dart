@@ -16,6 +16,26 @@ void main() {
   );
 }
 
+class AppColors {
+  // Shared primary color (green-based, soft)
+  static const primary = Color(0xFF4CAF50);
+  static const primaryDark = Color(0xFF81C784);
+
+  // Light theme
+  static const lightBackground = Color(0xFFF9FAFB);
+  static const lightSurface = Color(0xFFFFFFFF);
+  static const lightPrimaryText = Color(0xFF1F2937);
+  static const lightSecondaryText = Color(0xFF6B7280);
+
+  // Dark theme
+  static const darkBackground = Color(0xFF121212);
+  static const darkSurface = Color(0xFF1E1E1E);
+  static const darkPrimaryText = Color(0xFFF9FAFB);
+  static const darkSecondaryText = Color(0xFF9CA3AF);
+
+  static const appBarColor = Color(0xFF2F855A);
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -36,18 +56,26 @@ class MyApp extends StatelessWidget {
 
   ThemeData lightThemeData() {
     return ThemeData(
-      scaffoldBackgroundColor: const Color(0xFFFBF5F3),
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF43C59E),
+      scaffoldBackgroundColor: AppColors.lightBackground,
+      colorScheme: const ColorScheme(
         brightness: Brightness.light,
+        primary: AppColors.primary,
+        onPrimary: Colors.white,
+        secondary: Colors.teal,
+        onSecondary: Colors.white,
+        surface: AppColors.lightSurface,
+        onSurface: AppColors.lightPrimaryText,
+        error: Colors.red,
+        onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF646E78),
+        backgroundColor: AppColors.appBarColor,
         foregroundColor: Colors.white,
       ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: Color(0xFF0F0E0E)),
-        bodyMedium: TextStyle(color: Color(0xFF646E78)),
+        bodyLarge: TextStyle(fontSize: 18, color: AppColors.lightPrimaryText),
+        bodyMedium:
+            TextStyle(fontSize: 16, color: AppColors.lightSecondaryText),
       ),
       useMaterial3: true,
     );
@@ -55,18 +83,25 @@ class MyApp extends StatelessWidget {
 
   ThemeData darkThemeData() {
     return ThemeData(
-      scaffoldBackgroundColor: const Color(0xFF0F0E0E),
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF43C59E),
+      scaffoldBackgroundColor: AppColors.darkBackground,
+      colorScheme: ColorScheme(
         brightness: Brightness.dark,
+        primary: AppColors.primaryDark,
+        onPrimary: Colors.black,
+        secondary: Colors.tealAccent,
+        onSecondary: Colors.black,
+        surface: AppColors.darkSurface,
+        onSurface: AppColors.darkPrimaryText,
+        error: Colors.red[400]!,
+        onError: Colors.black,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF646E78),
+        backgroundColor: AppColors.appBarColor,
         foregroundColor: Colors.white,
       ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: Color(0xFFFBF5F3)),
-        bodyMedium: TextStyle(color: Color(0xFFCCCCCC)),
+        bodyLarge: TextStyle(fontSize: 18, color: AppColors.darkPrimaryText),
+        bodyMedium: TextStyle(fontSize: 16, color: AppColors.darkSecondaryText),
       ),
       useMaterial3: true,
     );
