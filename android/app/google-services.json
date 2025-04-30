@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1009598557772",
+    "project_id": "guitar-chords-app-ae97d",
+    "storage_bucket": "guitar-chords-app-ae97d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009598557772:android:81b2c43594027bcc038ee9",
+        "android_client_info": {
+          "package_name": "com.example.guitar_codes_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhohBwrv2w1gc_QSfOuhWsz5JwDpLEQ90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
